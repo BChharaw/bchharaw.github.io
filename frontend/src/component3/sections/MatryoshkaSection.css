@@ -1,0 +1,208 @@
+/* Clean Dark Matryoshka Section */
+.matryoshka-section {
+  background: #000000;
+  padding: 120px 0;
+  color: #ffffff;
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.section-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.subsection-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  letter-spacing: -0.01em;
+}
+
+.architecture-section {
+  margin-bottom: 80px;
+  text-align: center;
+}
+
+.layers-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.layer-bar {
+  height: 60px;
+  background: #007AFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.125rem;
+  transition: all 0.3s ease;
+  opacity: 0;
+  animation: layerAppear 0.6s ease forwards;
+}
+
+.layer-bar:hover {
+  background: #0056CC;
+}
+
+@keyframes layerAppear {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.layer-label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.metrics-section {
+  margin-bottom: 80px;
+  text-align: center;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.metric-item {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+
+.metric-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.metric-value {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #007AFF;
+  margin-bottom: 0.5rem;
+}
+
+.metric-label {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.innovations-section {
+  margin-bottom: 80px;
+}
+
+.innovations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.innovation-item {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+
+.innovation-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.innovation-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.innovation-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-in.animate {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.6s ease;
+}
+
+.fade-in.delay-1.animate { transition-delay: 0.1s; }
+.fade-in.delay-2.animate { transition-delay: 0.2s; }
+.fade-in.delay-3.animate { transition-delay: 0.3s; }
+
+@media (max-width: 768px) {
+  .matryoshka-section {
+    padding: 80px 0;
+  }
+  
+  .section-container {
+    padding: 0 1rem;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .innovations-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .layer-bar {
+    height: 50px;
+    font-size: 1rem;
+  }
+  
+  .metric-item,
+  .innovation-item {
+    padding: 1.5rem;
+  }
+}

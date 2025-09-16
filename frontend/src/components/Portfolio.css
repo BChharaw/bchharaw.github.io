@@ -1,0 +1,204 @@
+/* Global Portfolio Styles */
+.portfolio {
+  background: #000000;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* Apple-style smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Section spacing - Optimized for better visual hierarchy */
+.section {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 8rem 5% 6rem 5%;
+  margin-bottom: 4rem;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+/* Parallax elements */
+.parallax {
+  transition: transform 0.1s ease-out;
+}
+
+/* Enhanced text animations with better timing */
+.fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeInUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.fade-in.delay-1 { animation-delay: 0.15s; }
+.fade-in.delay-2 { animation-delay: 0.3s; }
+.fade-in.delay-3 { animation-delay: 0.45s; }
+.fade-in.delay-4 { animation-delay: 0.6s; }
+.fade-in.delay-5 { animation-delay: 0.75s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Video backgrounds */
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+/* Enhanced Typography System */
+.section-title {
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-subtitle {
+  font-size: clamp(1.125rem, 2.5vw, 1.4rem);
+  opacity: 0.85;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+  line-height: 1.6;
+  max-width: 700px;
+  letter-spacing: -0.01em;
+}
+
+.section-description {
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  opacity: 0.75;
+  line-height: 1.7;
+  max-width: 800px;
+  margin-bottom: 3rem;
+}
+
+/* Optimized Grid layouts */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: start;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Content containers with better spacing */
+.content-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Enhanced section separators */
+.section-separator {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  margin: 8rem 0;
+}
+
+/* Improved spacing for interactive elements */
+.interactive-element {
+  margin: 3rem 0;
+  padding: 2rem 0;
+}
+
+/* Better visual rhythm for content blocks */
+.content-block {
+  margin-bottom: 4rem;
+}
+
+.content-block:last-child {
+  margin-bottom: 0;
+}
+
+/* Enhanced spacing for lists and details */
+.detail-list {
+  margin: 2.5rem 0;
+}
+
+.detail-item {
+  margin-bottom: 1.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+@media (max-width: 1200px) {
+  .content-grid {
+    gap: 4rem;
+  }
+  
+  .section {
+    padding: 6rem 4% 4rem 4%;
+    margin-bottom: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .section {
+    padding: 4rem 20px 3rem 20px;
+    margin-bottom: 2rem;
+  }
+  
+  .content-container {
+    padding: 0 1rem;
+  }
+  
+  .section-separator {
+    margin: 5rem 0;
+  }
+  
+  .interactive-element {
+    margin: 2rem 0;
+    padding: 1.5rem 0;
+  }
+  
+  .content-block {
+    margin-bottom: 2.5rem;
+  }
+}

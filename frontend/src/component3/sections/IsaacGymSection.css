@@ -1,0 +1,169 @@
+/* === Clean Narrative Style with 2-column split === */
+.isaac-gym-section {
+  background: #000;
+  color: #fff;
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.section-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: #aaa;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* === Metrics as flowing text === */
+.metrics-section {
+  margin-bottom: 80px;
+}
+
+.metrics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.metric {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.metric-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #00ff88;
+  margin-right: 0.5rem;
+}
+
+.metric-label {
+  font-weight: 600;
+  color: #fff;
+}
+
+.metric-description {
+  display: block;
+  font-size: 0.95rem;
+  color: #aaa;
+  margin-top: 0.25rem;
+}
+
+/* === Two-column layout for Environments + Technical === */
+.env-tech-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-bottom: 80px;
+}
+
+.environments-section,
+.technical-section {
+  margin: 0; /* handled by parent grid */
+}
+
+/* === Environments === */
+.environment {
+  margin-bottom: 2.5rem;
+}
+
+.env-metric {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #007aff;
+  margin-bottom: 0.25rem;
+}
+
+.environment.active .env-metric {
+  color: #00ff88;
+}
+
+.env-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.env-description {
+  font-size: 1rem;
+  color: #bbb;
+  line-height: 1.6;
+}
+
+/* === Technical Implementation === */
+.tech-category {
+  margin-bottom: 2.5rem;
+}
+
+.category-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #00ff88;
+  margin-bottom: 1rem;
+}
+
+.category-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-item {
+  font-size: 0.95rem;
+  color: #bbb;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+  padding-left: 1.25rem;
+  position: relative;
+}
+
+.category-item::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: #007aff;
+}
+
+/* === Background video still fades === */
+.isaac-background-video {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+.isaac-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* === Mobile adjustments === */
+@media (max-width: 900px) {
+  .env-tech-section {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}

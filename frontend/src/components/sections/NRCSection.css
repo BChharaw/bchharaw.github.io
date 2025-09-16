@@ -1,0 +1,212 @@
+/* Clean Dark NRC Section */
+.nrc-section {
+  background: #000000;
+  padding: 120px 0;
+  color: #ffffff;
+}
+
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: clamp(40px, 8vw, 80px);
+}
+
+.section-title {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ===== Publications ===== */
+.publications-section {
+  margin-bottom: clamp(40px, 8vw, 80px);
+}
+
+.publications-list {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.publication-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.publication-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.publication-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+/* Left: text */
+.publication-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.status-badge.accepted {
+  background: rgba(0, 255, 136, 0.1);
+  color: #00ff88;
+  border: 1px solid rgba(0, 255, 136, 0.25);
+}
+
+.status-badge.under-review {
+  background: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+  border: 1px solid rgba(255, 193, 7, 0.25);
+}
+
+.publication-role {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.publication-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.publication-venue {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #0af; /* strong accent like Apple blue */
+  margin-bottom: 0.75rem;
+}
+
+.publication-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+}
+
+/* Right: thumbnail (8.5x11 page ratio) */
+.publication-thumbnail {
+  aspect-ratio: 8.5 / 11;
+  width: clamp(120px, 20vw, 160px);
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+  background: #111;
+  padding: 6px; /* page border effect */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.publication-item:hover .publication-thumbnail {
+  transform: scale(1.03);
+}
+
+/* ===== Contributions ===== */
+.contributions-section {
+  margin-bottom: clamp(40px, 8vw, 80px);
+}
+
+.contributions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.contribution-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.contribution-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.contribution-metric {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #0af;
+  margin-bottom: 0.75rem;
+}
+
+.contribution-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.contribution-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+}
+
+/* ===== Animations ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.fade-in.animate {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.6s ease;
+}
+.fade-in.delay-1.animate { transition-delay: 0.1s; }
+.fade-in.delay-2.animate { transition-delay: 0.2s; }
+
+/* ===== Mobile ===== */
+@media (max-width: 768px) {
+  .nrc-section {
+    padding: 60px 0;
+  }
+
+  .publication-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .publication-thumbnail {
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 120px;
+    align-self: center;
+  }
+}
