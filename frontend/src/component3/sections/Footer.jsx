@@ -133,8 +133,8 @@ const Footer = () => {
             </p>
             
             <div className="contact-primary">
-              <a href="mailto:bchharaw@uwaterloo.ca" className="contact-email">
-                📧 bchharaw@uwaterloo.ca
+              <a href="mailto:brendancmechatronics@gmail.com" className="contact-email">
+                📧 brendancmechatronics@gmail.com
               </a>
               <a href="tel:+1234567890" className="contact-phone">
                 📱 +1 (234) 567-8900
@@ -256,7 +256,7 @@ const Footer = () => {
               <a href="/transcript.pdf" className="action-button secondary" target="_blank">
                 📊 View Transcript
               </a>
-              <a href="mailto:bchharaw@uwaterloo.ca?subject=Collaboration Opportunity" className="action-button secondary">
+              <a href="mailto:brendancmechatronics@gmail.com?subject=Collaboration Opportunity" className="action-button secondary">
                 🤝 Collaboration
               </a>
               <a href="https://calendly.com/bchharaw/30min" className="action-button secondary" target="_blank">

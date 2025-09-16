@@ -3,7 +3,7 @@ export const portfolioData = {
   personal: {
     name: "Brendan Chharawala",
     title: "ML Robotics Engineer",
-    email: "bchharaw@uwaterloo.ca",
+    email: "brendancmechatronics@gmail.com",
     university: "University of Waterloo",
     degree: "BASc - Mechatronics Engineering, AI Specialization",
     gpa: "3.7"

@@ -102,7 +102,7 @@ const FinalSection = () => {
               <div className="contact-buttons">
                 <button 
                   className="cta-button primary"
-                  onClick={() => window.open('mailto:bchharaw@uwaterloo.ca')}
+                  onClick={() => window.open('mailto:brendancmechatronics@gmail.com')}
                 >
                   Email Me
                 </button>
