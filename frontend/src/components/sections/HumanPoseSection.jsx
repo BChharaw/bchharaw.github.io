@@ -33,7 +33,7 @@ const motionSteps = [
     phase: "Step 4",
     title: "RL Integration & Transfer",
     description:
-      "Latent rollouts guide an RL policy. Instead of manually shaping rewards, the RL agent learns by aligning with the latent manifold. This lightweight, efficient method transfers to simulation and eventually hardware with minimal task engineering.",
+      "Latent rollouts guide an RL policy. Instead of only manually shaping rewards, the RL agent can simultaneously learn by aligning with the latent priors from recorded videos. This lightweight, efficient method transfers to simulation and eventually hardware with minimal task engineering.",
     metrics: { value: "30%", label: "Faster convergence" }
   }
 ];
@@ -122,10 +122,10 @@ const HumanPoseSection = ({assets}) => {
         <div className="gallery-block">
           <h2 className="block-title">Alternative Latent Spaces</h2>
           <p className="visual-caption">
-            Beyond the primary manifold, other VAE configurations revealed different structural
+            Beyond the primary latent space, other VAE configurations revealed different structural
             symmetries of the human body. Some emphasized bilateral limb coupling, others highlighted
             torso–limb coordination or phase-specific clustering. Each latent geometry offered a
-            unique perspective on how motion can be organized.
+            unique perspective on how motion can be organized. These other spaces were created by exploring different hyperparameter combinations, especially with regards to activation functinos.
           </p>
           <div className="latent-gallery">
             <img src={assets.L1} alt="Latent variation 1" className="latent-image"/>
