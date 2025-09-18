@@ -87,7 +87,7 @@ const Portfolio = ({ assets }) => {
       <IsaacGymSection assets={assets} />
       <HumanPoseSection assets={assets} />
       <RobotVideoSection youtubeUrl="https://youtu.be/vApPSJQu870" />
-      <NRCSection assets={assets} />
+      {/* <NRCSection assets={assets} /> */}
       <ProjectsCarousel assets={assets} />
       <FinalSection assets={assets} />
       {/* <Footer /> */}
