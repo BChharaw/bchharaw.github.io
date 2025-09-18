@@ -37,7 +37,7 @@ const Portfolio = () => {
       <RobotSection />
       <IsaacGymSection />
       <HumanPoseSection />
-      <NRCSection />
+      {/* <NRCSection /> */}
       <MatryoshkaSection />
       <ProjectsCarousel />
       <FinalSection />

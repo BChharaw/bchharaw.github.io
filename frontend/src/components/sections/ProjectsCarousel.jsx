@@ -440,7 +440,7 @@ const ProjectsCarousel = ({ assets = {} }) => {
         <div className="section-header fade-in">
           <h2 className="section-title">A few other things I've done here and there</h2>
           <p className="section-subtitle">
-            Coursework, research, internships, personal builds, along with random stuff I've done for fun.
+            Coursework, research, internship projects, personal builds, along with random stuff I've done for fun.
           </p>
         </div>
 
