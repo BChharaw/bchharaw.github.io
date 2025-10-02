@@ -43,7 +43,7 @@
 //     {
 //       category: "Domain Randomization",
 //       items: [
-//         "Friction range [0.5 – 2.0]",
+//         "Friction range [0.5 - 2.0]",
 //         "Added base mass ±0.3 kg",
 //         "Random pushes every 1.5 s (vel, torque)",
 //         "Sensor & observation noise injection"
@@ -204,7 +204,7 @@ const IsaacGymSection = ({ assets }) => {
       k: "train",
       title: "Massively parallel PPO",
       lead: "4096 humanoids in lockstep, curriculum steps, and phase-guided references stabilized early gait learning.",
-      support: "Custom Actor–Critic in PyTorch with reward shaping for clearance, stance timing, and torso stability.",
+      support: "Custom Actor-Critic in PyTorch with reward shaping for clearance, stance timing, and torso stability.",
       metrics: [{ v: "4096", l: "Parallel sims" }, { v: "~33%", l: "Faster convergence" }]
     },
     {
@@ -238,7 +238,7 @@ const IsaacGymSection = ({ assets }) => {
 
   const technicalSpecs = [
     { category: "Simulation Framework", items: ["GPU-accelerated physics at 1000 Hz", "Up to 4096 envs per GPU", "PyTorch PPO trainer (custom Actor-Critic)", "Phase-based reference trajectories"] },
-    { category: "Domain Randomization", items: ["Friction range [0.5 – 2.0]", "Added base mass ±0.3 kg", "Random pushes every 1.5 s (vel, torque)", "Sensor & observation noise injection"] },
+    { category: "Domain Randomization", items: ["Friction range [0.5 - 2.0]", "Added base mass ±0.3 kg", "Random pushes every 1.5 s (vel, torque)", "Sensor & observation noise injection"] },
     { category: "Sim2Real Transfer", items: ["Reward shaping for foot clearance, stance timing, and balance", "Latency & torque smoothness penalties", "Calibration of IMU & controller gains", "Policies deployed on Jetson Nano in <20 ms/step"] }
   ];
 

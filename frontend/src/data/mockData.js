@@ -15,7 +15,7 @@ export const portfolioData = {
       title: "ML Robotics Engineering Intern",
       company: "National Research Council of Canada",
       location: "Ottawa, ON",
-      period: "May. 2025 – Aug. 2025",
+      period: "May. 2025 - Aug. 2025",
       achievements: [
         "Research Submissions: 'Design Decisions that Matter in Imitation Learning'; CoRL 2025 Data in Robotics Workshop, 1st auth., Accepted.",
         "'SHARE: Scene-Human Aligned Reconstruction'; SIGGRAPH Asia 2025 Technical Com., 2nd auth., Under review.",
@@ -29,10 +29,10 @@ export const portfolioData = {
       title: "Machine Learning and Robotics Developer",
       company: "GoodLabs Studio",
       location: "Toronto, ON",
-      period: "May 2023 – Jan. 2025",
+      period: "May 2023 - Jan. 2025",
       achievements: [
         "Making a Humanoid Robot Walk in Real Life using RL: Implemented a PPO-based Actor-Critic policy in PyTorch",
-        "Achieved walking on a real-life robot at variable speeds (0.1–0.6 m/s) with resistance to pushing",
+        "Achieved walking on a real-life robot at variable speeds (0.1-0.6 m/s) with resistance to pushing",
         "Designing a 3 ft-tall Humanoid Robot: Designed the legs and torso with 3D-printed components",
         "Human Pose Embeddings: Wrote a VAE-LSTM pipeline in TensorFlow to process human walking videos into 3D latents"
       ]
@@ -42,7 +42,7 @@ export const portfolioData = {
       title: "Machine Learning Researcher",
       company: "The Vision Image Processing Group",
       location: "Waterloo, ON",
-      period: "Oct. 2024 – Apr. 2025",
+      period: "Oct. 2024 - Apr. 2025",
       achievements: [
         "Implemented results from the 'Matryoshka Representation Learning' paper",
         "Built efficient scalable adaptation using BERT for emotion classification",

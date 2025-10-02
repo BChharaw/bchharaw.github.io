@@ -22,35 +22,35 @@ const engineeringSteps = [
     metrics: { value: "18", label: "Degrees of freedom" }
   },
   {
-    phase: "May – Aug 2023",
+    phase: "May - Aug 2023",
     title: "First humanoid prototype",
     description:
       "In our first summer at GoodLabs Studio we designed and built Robbie’s prototype body: a 3-ft, 18-DoF frame. While all of us tackled mechanical part design, we also integrated embedded systems and custom electronics needed to later support real-time inference. By August, the powered prototype was operational — providing a physical testbed for machine learning-driven locomotion experiments.",
     metrics: { value: "100+", label: "Custom 3D printed parts" }
   },
   {
-    phase: "Sep – Dec 2023 (PT, solo)",
+    phase: "Sep - Dec 2023 (PT, solo)",
     title: "Reliability and control stability",
     description:
       "Back in school, I iterated part-time to get Robbie stable enough for training and deployment. This involved widening the feet for balance, upgrading under-spec'd servos, tuning PID and other low-level controllers, and hardening the electronics to avoid power brownouts during high-load actions. These refinements created a platform robust enough to host reinforcement learning policies without catastrophic failures.",
     metrics: { value: "3", label: "Major control revisions" }
   },
   {
-    phase: "Jan – Apr 2024 (FT, Lucas + me)",
+    phase: "Jan - Apr 2024 (FT, Lucas + me)",
     title: "Reinforcement learning at scale",
     description:
       "During our second co-op, we shifted into NVIDIA Isaac Gym. Using a URDF digital twin, we tuned dynamics and ran thousands of parallel rollouts to train locomotion policies. I prototyped a VAE-LSTM pose embedding model to keep learned gaits close to human priors from motion-capture video. For RL, we implemented a PyTorch PPO trainer with a custom curriculum and reward shaping. A gait-phase sampling method reduced convergence time by ~33%, yielding stable locomotion across 4096 parallel simulations.",
     metrics: { value: "80kg/cm", label: "Torque (lower body servos)" }
   },
   {
-    phase: "May – Aug 2024 (PT, solo)",
+    phase: "May - Aug 2024 (PT, solo)",
     title: "Sim-to-real transfer experiments",
     description:
       "Continuing solo during school, I began deploying trained policies to the real robot. As expected, early trials failed dramatically, highlighting latency and cross-board communication issues. I implemented sensor calibration, contact-model corrections, and expanded domain randomization for better generalization. These improvements enabled Robbie to take its first (tethered) steps under a reinforcement learning policy.",
     metrics: { value: "15+", label: "Randomized sim parameters" }
   },
   {
-    phase: "Sep 2024 – Jan 2025 (FT, Lucas + me)",
+    phase: "Sep 2024 - Jan 2025 (FT, Lucas + me)",
     title: "On-device RL-driven walking",
     description:
       "With Robbie running inference on a Jetson Nano, we tackled bottlenecks in the full pipeline: from sensor input to neural policy output to actuation. We optimized latency to <20 ms per step, enabling real-time closed-loop reinforcement learning policies on-device. While simulation produced multiple walking styles, the most robust in reality resembled a duck-like wobble. Robbie could perform different gaits depending on support conditions — untethered, semi-tethered, or fully tethered for safety.",

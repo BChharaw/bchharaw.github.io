@@ -86,7 +86,7 @@ const assets = {
   spin: `${ASSET_PREFIX}spin.mp4`,
   corl: `${ASSET_PREFIX}corl_paper.jpeg`,
   humanoids: `${ASSET_PREFIX}humanoids_paper.jpeg`,
-  siggraph: `${ASSET_PREFIX}siggraph_potential_paper.jpeg`,
+  siggraph: `${ASSET_PREFIX}share.jpeg`,
   crane: `${ASSET_PREFIX}crane.webp`,
   crane_vid: `${ASSET_PREFIX}cranemoving.MOV`,
 

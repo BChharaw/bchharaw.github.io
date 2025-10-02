@@ -124,7 +124,7 @@ const HumanPoseSection = ({assets}) => {
           <p className="visual-caption">
             Beyond the primary latent space, other VAE configurations revealed different structural
             symmetries of the human body. Some emphasized bilateral limb coupling, others highlighted
-            torso–limb coordination or phase-specific clustering. Each latent geometry offered a
+            torso-limb coordination or phase-specific clustering. Each latent geometry offered a
             unique perspective on how motion can be organized. These other spaces were created by exploring different hyperparameter combinations, especially with regards to activation functinos.
           </p>
           <div className="latent-gallery">

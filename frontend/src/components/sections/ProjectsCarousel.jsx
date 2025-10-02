@@ -85,10 +85,10 @@
 //     title: "DIY Bluetooth Speaker (v1)",
 //     category: "Personal Project",
 //     description:
-//       "From salvaged 2007 laptop speakers, hand-wired receiver, and a simple op-amp stage to a printable PLA enclosure. Designed in SolidWorks with battery management, USB charging, and tactile controls. ~2–3 h runtime at typical volume; built for fun, great learning on signal routing and enclosure acoustics.",
+//       "From salvaged 2007 laptop speakers, hand-wired receiver, and a simple op-amp stage to a printable PLA enclosure. Designed in SolidWorks with battery management, USB charging, and tactile controls. ~2-3 h runtime at typical volume; built for fun, great learning on signal routing and enclosure acoustics.",
 //     image: assets.speaker1image2,
 //     tech: ["Op-Amp", "Li-ion", "3D CAD/Print"],
-//     metrics: { runtime: "2–3 h", charging: "USB", enclosure: "PLA" },
+//     metrics: { runtime: "2-3 h", charging: "USB", enclosure: "PLA" },
 //     demo: "https://drive.google.com/file/d/1UJn1_mlDJh7KRgchUkCvpnsx2lXTTpMn/view?usp=sharing"
 //   },
 
@@ -324,7 +324,7 @@ const ProjectsCarousel = ({ assets = {} }) => {
         "Video-to-3D-pose pipeline using MeTRAbs with batched decoding, vectorized post-processing, and configurable normalization. Provides pose visualization, dataset integrity checks, and compact serialization for downstream learning. Formed the data backbone for the VAE-LSTM described earlier in the site.",
       image: assets.dataset,
       video: assets.rotationpose,
-      tech: ["Python", "MeTRAbs", "NumPy", "Visualization"],
+      tech: ["Python", "Numpy", "Matplotlib"],
     },
     {
       id: 2,
@@ -334,8 +334,7 @@ const ProjectsCarousel = ({ assets = {} }) => {
       description:
         "A GPT wrapper from a while ago which serves as an interactive code explainer: paste code → annotated panels with line-linked highlights. Three abstraction levels (overview/normal/detailed), supports large inputs (~60k chars), and language-agnostic parsing for navigation. Built fast for demo; known gaps: mobile responsiveness and non-Python highlighting.",
       image: assets.codeexplain2,
-      tech: ["React", "Annotation Engine", "UX"],
-      metrics: { input: "60k chars", levels: "3" },
+      tech: ["React", "GCP", "UI/UX"],
       extraLinks: [
         { href: "https://devpost.com/software/doc_ur_code", label: "Devpost" },
         { href: "https://youtu.be/WVcPCwQh6ig", label: "Video Demo" }
@@ -350,7 +349,7 @@ const ProjectsCarousel = ({ assets = {} }) => {
         "C++ machine-vision pipeline that tracks model cars on a conveyor using depth + binarized frames. Starting from a bare camera window, we built our own segmentation, masking, and centroid extraction to isolate bumpers and reject distractors (e.g., hands). Achieved ±1 mm bumper tracking (camera-limited) in real time.",
       image: assets.conveyorsetup,
       video: assets.toyotainnovation,
-      tech: ["C++", "Depth + Binary", "Tracking"],
+      tech: ["C++", "Machine Vision"],
       metrics: { precision: "±1 mm", runtime: "Real-time", "": "Hand-rejection" },
       github: "https://github.com/BChharaw/CarTrackingMachineVisionAlgorithm"
     },
@@ -361,7 +360,7 @@ const ProjectsCarousel = ({ assets = {} }) => {
       description:
         "Autonomous UVC water disinfection concept from a 4-month PEO challenge. System integrates flow handling, UVC dose control, and monitoring; site requirements, safety considerations, and test constraints. Focus on practical assembly and serviceability for field use. Won 2nd place + $750 scholarship.",
       image: assets.in_tank,
-      tech: ["UVC", "Embedded", "Systems Design"],
+      tech: ["UVC Sterilization", "Embedded Systems", "Fluid Disinfection"],
       metrics: { disinfection: "log 4-7", focus: "Indigenous Community Water Safety" },
       github: "https://github.com/BChharaw/AutonomousWaterDisinfection"
     },
@@ -374,8 +373,8 @@ const ProjectsCarousel = ({ assets = {} }) => {
         "2-axis gantry that types on a real keyboard and navigates a desktop UI to send SMS messages. Closed-loop homing, end-stop calibration, and per-key offset maps give ±5 mm repeatability after calibration. Robust inertia compensation made it tolerant to frame vibrations.",
       image: assets.frontgantry,
       video: assets.gantrymotion,
-      tech: ["C / RobotC", "Kinematics", "Sensors"],
-      metrics: { axes: "2", precision: "±5 mm", task: "SMS automation" },
+      tech: ["C / RobotC", "Kinematics", "IOT"],
+      metrics: { axes: "2", precision: "±5 mm"},
       github: "https://github.com/BChharaw/HighPrecisionGantry"
     },
     {
@@ -383,10 +382,10 @@ const ProjectsCarousel = ({ assets = {} }) => {
       title: "DIY Bluetooth Speaker (v1)",
       category: "Personal Project",
       description:
-        "From salvaged 2007 laptop speakers, hand-wired receiver, and a simple op-amp stage to a printable PLA enclosure. Designed in SolidWorks with battery management, USB charging, and tactile controls. ~2–3 h runtime at typical volume; built for fun, great learning on signal routing and enclosure acoustics.",
+        "From salvaged 2007 laptop speakers, hand-wired receiver, and a simple op-amp stage to a printable PLA enclosure. Designed in SolidWorks with battery management, USB charging, and tactile controls. ~2-3 h runtime at typical volume; built for fun, great learning on signal routing and enclosure acoustics.",
       image: assets.speaker1image2,
-      tech: ["Op-Amp", "Li-ion", "3D CAD/Print"],
-      metrics: { runtime: "2–3 h", charging: "USB", enclosure: "PLA" },
+      tech: ["Op-Amp", "Li-ion 3.7V battery", "CAD Design"],
+      metrics: { runtime: "2-3 h", charging: "USB", enclosure: "PLA" },
       demo: "https://drive.google.com/file/d/1UJn1_mlDJh7KRgchUkCvpnsx2lXTTpMn/view?usp=sharing"
     },
     {
@@ -394,10 +393,10 @@ const ProjectsCarousel = ({ assets = {} }) => {
       title: "DIY Bluetooth Speaker (v2)",
       category: "Personal Project",
       description:
-        "Second-gen build focused on real acoustic improvements: higher-quality BT module, proper class-D amplifier PCB, larger 7.4 V pack, and a stiffer PETG enclosure. Stereo module salvaged from a SONY soundbar plus redesigned baffles/ports yielded audibly cleaner mids and higher SPL. Tactile external buttons replaced the embedded switches from v1.",
+        "Second-gen build focused on real acoustic improvements: higher-quality BT module, proper class-D amplifier PCB, larger 2 cell battery pack, and a stiffer PETG enclosure. Stereo module salvaged from a SONY soundbar plus redesigned baffles/ports yielded audibly cleaner mids and higher SPL. Tactile external buttons replaced the embedded switches from v1.",
       image: assets.speaker2image1,
-      tech: ["Class-D Amp", "BT Audio", "PETG Enclosure"],
-      metrics: { runtime: "~4 h @ max", battery: "7.4 V Li-ion", form: "Stereo" },
+      tech: ["Embedded Audio Engineering", "PETG Enclosure"],
+      metrics: { battery: "~4h @ max volume"},
       demo: "https://drive.google.com/file/d/1HR9SodwSb5HQviZwyhfjB5PnNal1oF-9/view?usp=sharing"
     },
     {
@@ -409,9 +408,8 @@ const ProjectsCarousel = ({ assets = {} }) => {
         "Remote-controlled crane designed for precise pickup/placement of awkward objects. Tuned linkage geometry and controller gains for smooth, low-overshoot slewing; compliant end-effector for grip stability. Demonstrated hand-off between robots; ranked top 15% overall.",
       image: assets.crane,
       video: assets.crane_vid,
-      tech: ["Mechanisms", "PID Control", "Rapid Prototyping"],
-      metrics: { placement: "Top 15%", handoff: "Successful", team: "4" },
-      duration: "1 term"
+      tech: ["PID Control", "Rapid Prototyping"],
+      metrics: { placement: "Top 15%" },
     },
   ], [assets]);
 
@@ -514,7 +512,7 @@ const ProjectsCarousel = ({ assets = {} }) => {
                   <p className="project-description">{currentProject.description}</p>
 
                   <div className="project-tech">
-                    <h4>Technologies Used</h4>
+                    <h4>Keywords</h4>
                     <div className="tech-stack">
                       {(currentProject.tech || []).map((t, i) => (
                         <span key={i} className="tech-tag">{t}</span>

@@ -27,29 +27,33 @@ const NRCSection = ({assets}) => {
       title: "Design Decisions that Matter in Imitation Learning",
       venue: "CoRL 2025 Data in Robotics Workshop",
       status: "Accepted",
+      link: "https://openreview.net/forum?id=XS2Z3nMxXC",
       role: "     1st Author",
-      description: "Analysis of critical design choices in imitation learning for robotic manipulation. Link to come following conference Sept 30th 2025.",
+      description: "How temporal horizons, proprioceptive data, teleoperation modalities, and other data manipulations affect generalist robotic policies.",
       thumbnail: assets.corl
+
+    },
+        {
+      title: "SHARE: Scene-Human Aligned Reconstruction",
+      venue: "Siggraph Asia Technical Communications", 
+      status: "Accepted",
+      link: "https://asia.siggraph.org/2025/program/technical-communications/",
+
+      role: "     2nd Author",
+      description: "Accurate in-the-wild human-scene 3D reconstructions from single camera videos, significantly beating all available SOTA methods. Link to come following conference Dec 18th 2025.",
+      thumbnail: assets.siggraph
 
     },
     {
       title: "Teleoperation for Scalable Learning",
       venue: "HUMANOIDS 2025 ARC Workshop", 
       status: "Accepted",
+      link: "https://arcworkshop2025.wordpress.com/wp-content/uploads/2025/09/pengchengxi_abstract3-1.pdf",
       role: "     3rd Author",
-      description: "Framework for scalable robotic learning through teleoperation. Link to come following conference Oct 2nd 2025.",
+      description: "Framework for scalable robotic learning through teleoperation, critically evaluating how teleoperation modalities shape learned distributions.",
       thumbnail: assets.humanoids
 
-    },
-    {
-      title: "[Title Redacted During Review Process]",
-      venue: "Siggraph Asia Technical Communications", 
-      status: "Under Review",
-      role: "     2nd Author",
-      description: "Accurate in-the-wild human-scene 3D reconstructions from single camera videos, significantly beating all available SOTA methods.",
-      thumbnail: assets.siggraph
-
-    },
+    }
   ];
 
   const contributions = [
@@ -89,13 +93,15 @@ const NRCSection = ({assets}) => {
             <div className="publications-list">
             {publications.map((pub, index) => (
               <div key={index} className="publication-item">
+                <a href={pub.link} target="_blank" rel="noopener noreferrer">
+
                 <div className="publication-content">
                   <div>
                     <div className="publication-header">
                       <div className="publication-status">
-                        <span className={`status-badge ${pub.status.toLowerCase().replace(' ', '-')}`}>
+                        {/* <span className={`status-badge ${pub.status.toLowerCase().replace(' ', '-')}`}>
                           {pub.status}
-                        </span>
+                        </span> */}
                         <span className="publication-role">{pub.role}</span>
                       </div>
                     </div>
@@ -112,6 +118,8 @@ const NRCSection = ({assets}) => {
                     />
                   )}
                 </div>
+               </a>
+
               </div>
             ))}
           </div>

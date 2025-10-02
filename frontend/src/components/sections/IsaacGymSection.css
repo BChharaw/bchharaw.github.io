@@ -132,7 +132,7 @@
 }
 
 .category-item::before {
-  content: "–";
+  content: "-";
   position: absolute;
   left: 0;
   color: #007aff;
@@ -449,7 +449,7 @@
 }
 .category-item + .category-item { margin-top: 6px; }
 .category-item::before {
-  content: "–";
+  content: "-";
   position: absolute;
   left: 0;
   color: var(--accent2);

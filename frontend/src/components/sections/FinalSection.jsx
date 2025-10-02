@@ -119,7 +119,7 @@ const FinalSection = ({ assets }) => {
               </div>
               <div className="footer-meta">
                 <div className="availability-status"><span>Available for internships Jan - Aug 2026</span></div>
-                <div className="location-info">Open to relocation; Work authorization: Canada, EU, (US via H1B)</div>
+                <div className="location-info">Open to relocation; Work authorization: Canada, EU, (US via J1)</div>
               </div>
             </div>
           </div>
