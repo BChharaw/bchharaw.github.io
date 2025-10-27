@@ -130,9 +130,9 @@ const HeroSection = ({ assets }) => {
               </div>
             </div>
             <div className="highlight-item">
-              <div className="highlight-metric">2 research publications</div>
+              <div className="highlight-metric">3 research publications</div>
               <div className="highlight-label">
-                (along with 1 in review and 1 being written).
+                (+ 1 in review and 1 being written).
               </div>
             </div>
           </div>
