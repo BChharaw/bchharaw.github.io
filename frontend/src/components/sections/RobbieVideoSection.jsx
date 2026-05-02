@@ -28,13 +28,12 @@ const RobbieVideoSection = ({
         <h2 className="section-title">{title}</h2>
         <p className="section-subtitle">{subtitle}</p>
 
-        <div className="video-frame-wrap fade-in">
+        <div className="video-frame-wrap robbie-fade-in">
           {src ? (
             <iframe
               className="video-frame"
               src={src}
               title="Robbie Video"
-              loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
