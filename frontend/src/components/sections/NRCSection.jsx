@@ -83,7 +83,7 @@ const NRCSection = ({assets}) => {
             Summer 2025: The National Research Council of Canada
             </h2>
             <p className="section-subtitle">
-              Lots of fun researching lots to do with robotics based machine learning polcies. Lots of papers read, and even some written.
+              Lots of fun exploring robotics-based machine learning policies. Lots of papers read, and even some written.
             </p>
           </div>
           

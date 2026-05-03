@@ -5,9 +5,6 @@ const RobotSection = ({assets}) => {
   const sectionRef = useRef(null);
   const videoRef = useRef(null);
 
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [videoReady, setVideoReady] = useState(false);
-  const [isScrolling, setIsScrolling] = useState(false);
 
   // Carousel state
   const [activeStep, setActiveStep] = useState(0);
@@ -25,7 +22,7 @@ const engineeringSteps = [
     phase: "May - Aug 2023",
     title: "First humanoid prototype",
     description:
-      "In our first summer at GoodLabs Studio we designed and built Robbie’s prototype body: a 3-ft, 18-DoF frame. While all of us tackled mechanical part design, we also integrated embedded systems and custom electronics needed to later support real-time inference. By August, the powered prototype was operational — providing a physical testbed for machine learning-driven locomotion experiments.",
+      "In our first summer at GoodLabs Studio we designed and built Robbie’s prototype body: a 3-ft, 18-DoF frame. While all of us tackled mechanical part design, we also integrated embedded systems and custom electronics needed to later support real-time inference. By August, the powered prototype was operational, providing a physical testbed for machine learning-driven locomotion experiments.",
     metrics: { value: "100+", label: "Custom 3D printed parts" }
   },
   {
@@ -53,39 +50,31 @@ const engineeringSteps = [
     phase: "Sep 2024 - Jan 2025 (FT, Lucas + me)",
     title: "On-device RL-driven walking",
     description:
-      "With Robbie running inference on a Jetson Nano, we tackled bottlenecks in the full pipeline: from sensor input to neural policy output to actuation. We optimized latency to <20 ms per step, enabling real-time closed-loop reinforcement learning policies on-device. While simulation produced multiple walking styles, the most robust in reality resembled a duck-like wobble. Robbie could perform different gaits depending on support conditions — untethered, semi-tethered, or fully tethered for safety.",
+      "With Robbie running inference on a Jetson Nano, we tackled bottlenecks in the full pipeline: from sensor input to neural policy output to actuation. We optimized latency to <20 ms per step, enabling real-time closed-loop reinforcement learning policies on-device. While simulation produced multiple walking styles, the most robust in reality resembled a duck-like wobble. Robbie could perform different gaits depending on support conditions: untethered, semi-tethered, or fully tethered for safety.",
     metrics: { value: "<20 ms", label: "End-to-end inference latency" }
   }
 ];
 
   // === Scroll handling for scrubbing ===
   useEffect(() => {
-    let scrollTimeout;
+    let rafPending = false;
     const handleScroll = () => {
-      if (sectionRef.current) {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(() => {
+        rafPending = false;
+        const video = videoRef.current;
+        if (!video || !video.duration || !sectionRef.current) return;
         const rect = sectionRef.current.getBoundingClientRect();
-        const sectionHeight = rect.height;
-        const scrolled = Math.max(0, window.innerHeight - rect.top);
-        const progress = Math.min(1, Math.max(0, scrolled / sectionHeight));
-        setScrollProgress(progress);
-      }
-
-      setIsScrolling(true);
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => setIsScrolling(false), 150);
+        const progress = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / rect.height));
+        video.currentTime = progress * video.duration;
+      });
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Apply scrubbing while scrolling
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video && videoReady && video.duration > 0 && isScrolling) {
-      video.currentTime = scrollProgress * video.duration;
-    }
-  }, [scrollProgress, videoReady, isScrolling]);
 
   // // Idle spin when not scrolling
   // useEffect(() => {
@@ -141,7 +130,6 @@ const engineeringSteps = [
               src={assets.spin}   // put spin.mp4 in /public
               muted
               playsInline
-              onLoadedMetadata={() => setVideoReady(true)}
             />
 
             <div className="tech-specs">

@@ -19,7 +19,7 @@ const motionSteps = [
     phase: "Step 2",
     title: "Temporal Prediction with LSTM",
     description:
-      "Sequences of latent vectors are passed into an LSTM. The recurrence models continuity, predicting the next latent from history. This encodes rhythm and balance — the system can generate entire gait cycles without supervision.",
+      "Sequences of latent vectors are passed into an LSTM. The recurrence models continuity, predicting the next latent from history. This encodes rhythm and balance; the system can generate entire gait cycles without supervision.",
     metrics: { value: "200+", label: "Steps predicted" }
   },
   {
@@ -60,8 +60,8 @@ const HumanPoseSection = ({assets}) => {
         <div className="section-header">
           <h2 className="section-title">Learning Human Motion with VAE-LSTM</h2>
           <p className="section-subtitle">
-            A variational autoencoder combined with temporal modeling
-            — turning 45,000+ human poses into structured latent trajectories
+            A variational autoencoder combined with temporal modeling,
+            turning 45,000+ human poses into structured latent trajectories
             that drive reinforcement learning for Robbie the humanoid robot.
           </p>
         </div>
@@ -112,8 +112,8 @@ const HumanPoseSection = ({assets}) => {
               className="motion-image"
             />
             <p className="visual-caption">
-              Latent space visualization — each arc corresponds to gait phases
-              captured by the VAE-LSTM pipeline.
+              Latent space visualization (each arc corresponds to gait phases
+              captured by the VAE-LSTM pipeline).
             </p>
           </div>
         </div>
@@ -125,7 +125,7 @@ const HumanPoseSection = ({assets}) => {
             Beyond the primary latent space, other VAE configurations revealed different structural
             symmetries of the human body. Some emphasized bilateral limb coupling, others highlighted
             torso-limb coordination or phase-specific clustering. Each latent geometry offered a
-            unique perspective on how motion can be organized. These other spaces were created by exploring different hyperparameter combinations, especially with regards to activation functinos.
+            unique perspective on how motion can be organized. These other spaces were created by exploring different hyperparameter combinations, especially with regards to activation functions.
           </p>
           <div className="latent-gallery">
             <img src={assets.L1} alt="Latent variation 1" className="latent-image"/>

@@ -189,7 +189,6 @@ const IsaacGymSection = ({ assets }) => {
   const sectionRef = useRef(null);
   const videoRef = useRef(null);
 
-  const [videoOpacity, setVideoOpacity] = useState(0.0);
   const [activeBeat, setActiveBeat] = useState(0);
 
   const storyBeats = [
@@ -243,29 +242,35 @@ const IsaacGymSection = ({ assets }) => {
   ];
 
 useEffect(() => {
+  let rafPending = false;
+
   const onScroll = () => {
-    if (!sectionRef.current) return;
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      rafPending = false;
+      if (!sectionRef.current) return;
 
-    // fade video based on how much of the section is visible
-    const rect = sectionRef.current.getBoundingClientRect();
-    const h = window.innerHeight;
-    const visible = Math.min(rect.bottom, h) - Math.max(rect.top, 0);
-    const p = Math.max(0, Math.min(1, visible / rect.height));
-    const fadeStart = 0.2, fadeEnd = 0.8;
-    const t = p <= fadeStart ? 0 : p >= fadeEnd ? 1 : (p - fadeStart) / (fadeEnd - fadeStart);
-    setVideoOpacity(t * 0.6); // identical feel to your original
+      const rect = sectionRef.current.getBoundingClientRect();
+      const h = window.innerHeight;
+      const visible = Math.min(rect.bottom, h) - Math.max(rect.top, 0);
+      const p = Math.max(0, Math.min(1, visible / rect.height));
+      const fadeStart = 0.2, fadeEnd = 0.8;
+      const t = p <= fadeStart ? 0 : p >= fadeEnd ? 1 : (p - fadeStart) / (fadeEnd - fadeStart);
 
-    // keep the sticky “Now training” in sync
-    const mid = h * 0.45;
-    const beats = sectionRef.current.querySelectorAll('.story-beat');
-    let best = 0, bestDist = Infinity;
-    beats.forEach((el, i) => {
-      const r = el.getBoundingClientRect();
-      const c = r.top + r.height * 0.5;
-      const d = Math.abs(c - mid);
-      if (d < bestDist) { bestDist = d; best = i; }
+      if (videoRef.current) videoRef.current.style.opacity = t * 0.6;
+
+      const mid = h * 0.45;
+      const beats = sectionRef.current.querySelectorAll('.story-beat');
+      let best = 0, bestDist = Infinity;
+      beats.forEach((el, i) => {
+        const r = el.getBoundingClientRect();
+        const c = r.top + r.height * 0.5;
+        const d = Math.abs(c - mid);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      setActiveBeat(best);
     });
-    setActiveBeat(best);
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -284,7 +289,6 @@ useEffect(() => {
   loop
   playsInline
   autoPlay
-  style={{ opacity: videoOpacity }}
 />
 
       <div className="video-vignette" />

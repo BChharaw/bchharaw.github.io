@@ -14,7 +14,7 @@ const RobbieVideoSection = ({
   videoId,
   youtubeUrl,
   title = "Watch Robbie work in Real Life!",
-  subtitle = "Take a look at how Robbie looks in it's various forms of walking, both in sim and real life!"
+  subtitle = "Take a look at how Robbie looks in its various forms of walking, both in sim and real life!"
 }) => {
   const id = videoId || getYouTubeId(youtubeUrl);
   const src = id

@@ -319,7 +319,7 @@ const ProjectsCarousel = ({ assets = {} }) => {
       id: 1,
       title: "Internal library for generating human pose datasets from videos",
       category: "Research Tool",
-      company: "GoodLabs Studio — Team Robbie",
+      company: "GoodLabs Studio, Team Robbie",
       description:
         "Video-to-3D-pose pipeline using MeTRAbs with batched decoding, vectorized post-processing, and configurable normalization. Provides pose visualization, dataset integrity checks, and compact serialization for downstream learning. Formed the data backbone for the VAE-LSTM described earlier in the site.",
       image: assets.dataset,
