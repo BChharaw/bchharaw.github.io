@@ -1,159 +1,49 @@
-// import React, { useEffect, useRef, useState } from 'react';
-// import './HeroSection.css';
-
-// const HeroSection = () => {
-//   const titleRef = useRef(null);
-//   const subtitleRef = useRef(null);
-//   const [isVisible, setIsVisible] = useState(false);
-
-//   useEffect(() => {
-//     const observer = new IntersectionObserver(
-//       (entries) => {
-//         entries.forEach((entry) => {
-//           if (entry.isIntersecting) {
-//             entry.target.classList.add('animate');
-//             setIsVisible(true);
-//           }
-//         });
-//       },
-//       { threshold: 0.1 }
-//     );
-
-//     if (titleRef.current) observer.observe(titleRef.current);
-//     if (subtitleRef.current) observer.observe(subtitleRef.current);
-
-//     return () => observer.disconnect();
-//   }, []);
-
-//   return (
-//     <section id="hero" className="hero-section">
-//       <div className="hero-container">
-//         <div className="hero-content">
-//           <h1 ref={titleRef} className="hero-title fade-in">
-//             I'm your guy for
-//             <br />
-//             <span className="hero-accent">Robotics Machine Learning.</span>
-//           </h1>
-          
-//           <p ref={subtitleRef} className="hero-subtitle fade-in delay-1">
-//             Mechatronics Eng student at UWaterloo available for final-year co-op (Jan - Aug 2026).
-//           </p>
-          
-//           <div className="hero-highlights fade-in delay-2">
-//             <div className="highlight-item">
-//               <div className="highlight-metric">4 Co-ops + 1 URA</div>
-//               <div className="highlight-label">+3 terms doing part-time engineering work during uni.</div>
-//             </div>
-//             <div className="highlight-item">
-//               <div className="highlight-metric">3 ft tall</div>
-//               <div className="highlight-label">humanoid robot designed from scratch and trained to walk in real life.</div>
-//             </div>
-//             <div className="highlight-item">
-//               <div className="highlight-metric">2</div>
-//               <div className="highlight-label">Accepted research publications (+ 1 in review, 1 being written).</div>
-//             </div>
-//           </div>
-          
-          
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default HeroSection;
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, lazy } from 'react';
+import { milestones, profile, problemMailto } from '../../data/site';
 import './HeroSection.css';
 
-const HeroSection = ({ assets }) => {
-  const titleRef = useRef(null);
-  const subtitleRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+// three.js and the planner load after the text has painted.
+const CityDrive = lazy(() => import('../../drive/city/CityDrive'));
 
-  // grab preloaded background from assets
-  const bgImage = assets.heroBackground
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate');
-            setIsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (titleRef.current) observer.observe(titleRef.current);
-    if (subtitleRef.current) observer.observe(subtitleRef.current);
-
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <section
-      id="hero"
-      className={`hero-section ${bgImage ? 'bg-visible' : ''}`}
-      style={{
-        '--hero-bg': bgImage ? `url(${bgImage.src})` : 'none',
-      }}
-    >
-      <div className="hero-container">
-        <div className="hero-content">
-          <h1 ref={titleRef} className="hero-title fade-in">
-            My name is Brendan, and I do
-            <br />
-            <span className="hero-accent">Robotics Machine Learning.</span>
-          </h1>
-
-          <p ref={subtitleRef} className="hero-subtitle fade-in delay-1">
-            Mechatronics Eng student at UWaterloo available for final-year co-op (Jan - Aug 2026).
+const HeroSection = () => (
+  <section id="hero" className="hero">
+    <div className="wrap">
+      <div className="hero-grid">
+        <div className="hero-intro">
+          <p className="eyebrow">
+            <span className="status"><span><b>{profile.current.title}</b> · {profile.current.org}</span></span>
           </p>
+          <h1 className="hero-title">Throw me your hardest robotics problem.</h1>
+          <p className="lede">
+            I’ve taken an 18-DoF humanoid from 4096-environment RL to walking on real hardware, written radar
+            processing and firmware for an 8T6R radar, cut ML data preparation time 24×, and published on
+            imitation learning at the National Research Council of Canada. ML, RL, embedded, simulation: I go
+            wherever the problem is.
+          </p>
+          <div className="hero-cta">
+            <a className="btn btn-primary" href={problemMailto}>Send me a problem</a>
+            <a className="btn" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a className="btn" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+            {profile.resume && (
+              <a className="btn" href={profile.resume} target="_blank" rel="noopener noreferrer">Resume</a>
+            )}
+          </div>
 
-          <div
-            className={`hero-highlights fade-in delay-2 ${
-              isVisible ? 'animate' : ''
-            }`}
-          >
-            <div className="highlight-item">
-              <div className="highlight-metric">4 co-ops + 1 URA</div>
-              <div className="highlight-label">
-                not to mention 3 terms doing part-time engineering work during school.
-              </div>
-            </div>
-            <div className="highlight-item">
-              <div className="highlight-metric">3 ft tall humanoid robot</div>
-              <div className="highlight-label">
-                designed from scratch and trained to walk in real life.
-              </div>
-            </div>
-            <div className="highlight-item">
-              <div className="highlight-metric">3 research publications</div>
-              <div className="highlight-label">
-                (+ 1 in review and 1 being written).
-              </div>
-            </div>
-          </div>
+          <dl className="kv hero-facts">
+            <div><dt>Now</dt><dd>{profile.current.title}, {profile.current.org}</dd></div>
+            <div><dt>Range</dt><dd>{profile.range}</dd></div>
+            <div><dt>Before</dt><dd>ENVGO, NRC Canada, GoodLabs Studio, VIP Lab</dd></div>
+            <div><dt>Papers</dt><dd>CoRL ’25 workshop (1st author), SIGGRAPH Asia ’25 (2nd), Humanoids ’25 workshop (3rd)</dd></div>
+            <div><dt>Education</dt><dd>BASc Mechatronics Engineering, AI specialization, University of Waterloo</dd></div>
+          </dl>
         </div>
-        <div className="hero-actions fade-in delay-3">
-            <button 
-              className="cta-button primary"
-              onClick={() => document.getElementById('work').scrollIntoView({ behavior: 'smooth' })}
-            >
-              Click to see what I'm capable of
-            </button>
-            <button 
-              className="cta-button secondary"
-              onClick={() => window.open('https://www.linkedin.com/in/bchharawala/', '_blank')}
-            >
-              Find me on LinkedIn
-            </button>
-          </div>
+
+        <Suspense fallback={<div className="city city-loading" aria-busy="true"><div className="city-stage" /></div>}>
+          <CityDrive milestones={milestones} />
+        </Suspense>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default HeroSection;

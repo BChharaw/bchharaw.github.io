@@ -1,0 +1,45 @@
+// Plain URLs; images lazy-load and videos stream, so nothing blocks first paint.
+const A = `${process.env.PUBLIC_URL}/assets/`;
+const O = `${A}opt/`; // resized WebP / H.264 copies of the originals
+
+const assets = {
+  heroBackground: `${A}robotbackground.webp`,
+  robbie: `${A}robbie.webp`,
+  robbieSide: `${A}robbieside.webp`,
+  latentspacegood: `${O}latentspace.mp4`,
+  L1: `${O}L1.mp4`,
+  L2: `${O}L2.mp4`,
+  L3: `${O}L3.mp4`,
+  L4: `${O}L4.mp4`,
+  latentPoster: `${O}latentspace-poster.webp`,
+  L1Poster: `${O}L1-poster.webp`,
+  L2Poster: `${O}L2-poster.webp`,
+  L3Poster: `${O}L3-poster.webp`,
+  L4Poster: `${O}L4-poster.webp`,
+  robot_sim_walk: `${A}robbie_walk2.mp4`,
+  spin: `${A}spin.mp4`,
+  corl: `${A}corl_paper.jpeg`,
+  humanoids: `${A}humanoids_paper.jpeg`,
+  siggraph: `${A}share.jpeg`,
+  crane: `${O}crane.webp`,
+  crane_vid: `${A}cranemoving.MOV`,
+  frontgantry: `${O}frontgantry.webp`,
+  gantrymotion: `${A}gantrymotion.mp4`,
+  dataset: `${O}dataset.webp`,
+  rotationpose: `${A}rotationpose.gif`,
+  codeexplain2: `${O}codeexplain2.webp`,
+  in_tank: `${O}in-tank.webp`,
+  conveyorsetup: `${O}conveyorsetup.webp`,
+  toyotainnovation: `${A}toyotainnovation.mp4`,
+  speaker1image2: `${O}speaker1image2.webp`,
+  speaker2image1: `${O}speaker2image1.webp`,
+  torqueoptimizer: `${A}torqueoptimizer.webp`,
+  car_estimator_model: `${A}CarEstimatorModel.webp`,
+  goals_as_list: `${A}goals-as-list.webp`,
+  vip: `${A}viplogo-1.png`,
+  goodlabs: `${A}goodlabs_logo.png`,
+  nrc: `${A}nrclogo.png`,
+  waterloologo: `${A}uwlogo.jpg`,
+};
+
+export default assets;

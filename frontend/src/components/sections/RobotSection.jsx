@@ -1,21 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './RobotSection.css';
-// import robot_spin from "../../assets/spin.mp4" 
-const RobotSection = ({assets}) => {
-  const sectionRef = useRef(null);
-  const videoRef = useRef(null);
 
-
-  // Carousel state
-  const [activeStep, setActiveStep] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-const engineeringSteps = [
+const chapters = [
   {
     phase: "Project overview",
     title: "Two years designing and training Robbie",
     description:
-      "Robbie is a 3-ft, 18-DoF humanoid robot that we built and trained from scratch over two years. After an initial 4-month design sprint, development continued full-time (and later part-time during school) through simulation, reinforcement learning, and deployment. The project spanned hardware design, URDF digital twins, policy training, and sim-to-real transfer. Explore this carousel for more about Robbie's story or scroll down for more details on the RL methods and deployment.",
+      "Robbie is a 3-ft, 18-DoF humanoid robot that we built and trained from scratch over two years. After an initial 4-month design sprint, development continued full-time (and later part-time during school) through simulation, reinforcement learning, and deployment. The project spanned hardware design, URDF digital twins, policy training, and sim-to-real transfer.",
     metrics: { value: "18", label: "Degrees of freedom" }
   },
   {
@@ -55,123 +46,226 @@ const engineeringSteps = [
   }
 ];
 
-  // === Scroll handling for scrubbing ===
-  useEffect(() => {
-    let rafPending = false;
-    const handleScroll = () => {
-      if (rafPending) return;
-      rafPending = true;
-      requestAnimationFrame(() => {
-        rafPending = false;
-        const video = videoRef.current;
-        if (!video || !video.duration || !sectionRef.current) return;
-        const rect = sectionRef.current.getBoundingClientRect();
-        const progress = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / rect.height));
-        video.currentTime = progress * video.duration;
-      });
-    };
+const RobotSection = ({ assets }) => {
+  const videoRef = useRef(null);
+  const [active, setActive] = useState(0);
+  const chapter = chapters[active];
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+  // === Turntable: auto-rotate by default, slider / drag to take control ===
+  const sliderRef = useRef(null);
+  const readoutRef = useRef(null);
+  const [autoSpin, setAutoSpin] = useState(
+    () => !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+  const spin = useRef({ dragging: false, seeking: false, pending: null, resumeTimer: 0, auto: autoSpin });
+  spin.current.auto = autoSpin;
+
+  // Reflect the current angle in the slider without re-rendering the section.
+  const showAngle = (deg) => {
+    const a = ((Math.round(deg) % 360) + 360) % 360;
+    if (sliderRef.current) {
+      sliderRef.current.value = String(a);
+      sliderRef.current.style.setProperty('--p', `${(a / 360) * 100}%`);
+    }
+    if (readoutRef.current) readoutRef.current.textContent = `${a}°`;
+  };
+
+  // spin.mp4 has a single keyframe, so seeks are slow: coalesce them so only
+  // the latest requested angle is decoded once the previous seek lands.
+  const seekTo = (deg) => {
+    const video = videoRef.current;
+    if (!video || !video.duration) return;
+    const s = spin.current;
+    s.pending = ((((deg % 360) + 360) % 360) / 360) * video.duration;
+    showAngle(deg);
+    if (s.seeking) return;
+    s.seeking = true;
+    video.currentTime = s.pending;
+    s.pending = null;
+  };
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+    const s = spin.current;
+    const onSeeked = () => {
+      s.seeking = false;
+      if (s.pending != null) {
+        s.seeking = true;
+        video.currentTime = s.pending;
+        s.pending = null;
+      }
+    };
+    let raf = 0;
+    const track = () => {
+      if (video.duration && !s.dragging) showAngle((video.currentTime / video.duration) * 360);
+      raf = requestAnimationFrame(track);
+    };
+    const onMeta = () => { video.playbackRate = 0.35; };
+    // play() before the source has loaded gets aborted, so (re)start once ready.
+    const onReady = () => {
+      if (s.auto && !s.dragging && video.paused) video.play().catch(() => {});
+    };
+    video.addEventListener('seeked', onSeeked);
+    video.addEventListener('loadedmetadata', onMeta);
+    video.addEventListener('canplay', onReady);
+    if (video.readyState >= 1) onMeta();
+    if (video.readyState >= 3) onReady();
+    raf = requestAnimationFrame(track);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(s.resumeTimer);
+      video.removeEventListener('seeked', onSeeked);
+      video.removeEventListener('loadedmetadata', onMeta);
+      video.removeEventListener('canplay', onReady);
+    };
   }, []);
 
-  // // Idle spin when not scrolling
-  // useEffect(() => {
-  //   const video = videoRef.current;
-  //   if (!video || !videoReady) return;
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (autoSpin && !spin.current.dragging) {
+      video.playbackRate = 0.35;
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [autoSpin]);
 
-  //   let lastTime = performance.now();
+  const beginControl = () => {
+    const s = spin.current;
+    s.dragging = true;
+    clearTimeout(s.resumeTimer);
+    videoRef.current?.pause();
+  };
+  const endControl = () => {
+    const s = spin.current;
+    s.dragging = false;
+    clearTimeout(s.resumeTimer);
+    // Hand control back to the turntable after a short pause.
+    if (autoSpin) s.resumeTimer = setTimeout(() => videoRef.current?.play().catch(() => {}), 1800);
+  };
 
-  //   const spin = (time) => {
-  //     const dt = (time - lastTime) / 1000;
-  //     lastTime = time;
-
-  //     if (!isScrolling && video.duration > 0) {
-  //       const idleSpeed = 0.05; // fraction of rotation per second
-  //       let newTime = video.currentTime + idleSpeed * video.duration * dt;
-  //       if (newTime > video.duration) newTime -= video.duration;
-  //       video.currentTime = newTime;
-  //     }
-
-  //     requestAnimationFrame(spin);
-  //   };
-
-  //   requestAnimationFrame(spin);
-  // }, [videoReady, isScrolling]);
-
-  // === Independent carousel ===
-  // useEffect(() => {
-  //   if (isPaused) return;
-  //   const timer = setInterval(() => {
-  //     setActiveStep(prev => (prev + 1) % engineeringSteps.length);
-  //   }, 5000);
-  //   return () => clearInterval(timer);
-  // }, [isPaused, engineeringSteps.length]);
-
-  const currentStep = engineeringSteps[activeStep];
+  // Grab-and-drag the robot itself, like spinning a turntable.
+  const onViewportPointerDown = (e) => {
+    const video = videoRef.current;
+    if (!video?.duration) return;
+    const el = e.currentTarget;
+    el.setPointerCapture(e.pointerId);
+    beginControl();
+    const startX = e.clientX;
+    const startDeg = (video.currentTime / video.duration) * 360;
+    const move = (ev) => seekTo(startDeg - (ev.clientX - startX) * 0.6);
+    const up = () => {
+      el.removeEventListener('pointermove', move);
+      el.removeEventListener('pointerup', up);
+      el.removeEventListener('pointercancel', up);
+      endControl();
+    };
+    el.addEventListener('pointermove', move);
+    el.addEventListener('pointerup', up);
+    el.addEventListener('pointercancel', up);
+  };
 
   return (
-    <section id="work" className="robot-section" ref={sectionRef}>
-      <div className="section-container">
-        <div className="section-header">
-          <h2 className="section-title">Designing a 3 ft tall humanoid robot (Robbie) @ <a href='https://www.goodlabs.studio'>GoodLabs Studio</a></h2>
-          <p className="section-subtitle">
-            Designed and built on a team of 3 people total, we handled everything from design, to reinforcement learning, along with construction and deploying in real-life.
-          </p>
+    <section id="robbie" className="section">
+      <div className="wrap">
+        <div className="section-head">
+          <p className="eyebrow"><b>02</b> Humanoid</p>
+          <div>
+            <h2 className="h2">Robbie: a 3 ft humanoid we built from scratch and taught to walk</h2>
+            <p className="lede">
+              Two years at <a href="https://www.goodlabs.studio" target="_blank" rel="noopener noreferrer">GoodLabs Studio</a> on
+              a team of three: mechanical design, electronics, a URDF digital twin, reinforcement learning, and
+              sim-to-real deployment on the robot.
+            </p>
+          </div>
         </div>
 
-        <div className="robot-workspace">
-          {/* Scroll-scrubbed + idle-spinning video */}
-          <div className="robot-viewport">
-            <video
-              ref={videoRef}
-              className="robot-video"
-              src={assets.spin}   // put spin.mp4 in /public
-              muted
-              playsInline
-            />
-
-            <div className="tech-specs">
-              <div className="spec-row"><span className="spec-label">Height</span><span className="spec-value">3 feet</span></div>
-              <div className="spec-row"><span className="spec-label">Weight</span><span className="spec-value">26.2 lbs</span></div>
-              <div className="spec-row"><span className="spec-label">DoF</span><span className="spec-value">18 joints</span></div>
-            </div>
-          </div>
-
-          {/* Independent carousel for process steps */}
-          <div 
-            className="engineering-process"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-          >
-            <div className="process-header">
-              <div className="step-counter">{activeStep + 1} / {engineeringSteps.length}</div>
-              <div className="phase-label">{currentStep.phase}</div>
+        <div className="robot-grid">
+          <figure className="figure robot-figure">
+            <div className="robot-stage panel" onPointerDown={onViewportPointerDown} title="Drag to rotate">
+              <video
+                ref={videoRef}
+                className="robot-video"
+                src={assets.spin}
+                muted
+                loop
+                playsInline
+                autoPlay={autoSpin}
+                preload="auto"
+                aria-label="Robbie rotating on a turntable"
+              />
             </div>
 
-            <div className="step-content">
-              <h3 className="step-title">{currentStep.title}</h3>
-              <p className="step-description">{currentStep.description}</p>
-              <div className="step-metric">
-                <div className="metric-value">{currentStep.metrics.value}</div>
-                <div className="metric-label">{currentStep.metrics.label}</div>
-              </div>
+            <div className="turntable">
+              <button
+                type="button"
+                className="icon-btn"
+                onClick={() => setAutoSpin((v) => !v)}
+                aria-pressed={!autoSpin}
+                aria-label={autoSpin ? 'Pause rotation' : 'Resume rotation'}
+              >
+                {autoSpin ? (
+                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor" /></svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" /></svg>
+                )}
+              </button>
+              <input
+                ref={sliderRef}
+                type="range"
+                min="0"
+                max="359"
+                step="1"
+                defaultValue="0"
+                aria-label="Rotate Robbie"
+                className="turntable-slider"
+                onPointerDown={beginControl}
+                onPointerUp={endControl}
+                onPointerCancel={endControl}
+                onKeyDown={beginControl}
+                onKeyUp={endControl}
+                onInput={(e) => seekTo(Number(e.currentTarget.value))}
+              />
+              <output ref={readoutRef} className="turntable-readout" aria-live="off">0°</output>
             </div>
 
-            <div className="carousel-controls">
-              <button onClick={() => setActiveStep((activeStep - 1 + engineeringSteps.length) % engineeringSteps.length)}>⟨</button>
-              <button onClick={() => setActiveStep((activeStep + 1) % engineeringSteps.length)}>⟩</button>
-            </div>
+            <dl className="kv robot-specs">
+              <div><dt>Height</dt><dd>0.91 m (3 ft)</dd></div>
+              <div><dt>Mass</dt><dd>11.9 kg (26.2 lb)</dd></div>
+              <div><dt>Actuation</dt><dd>18 servo joints, 80 kg·cm in the legs</dd></div>
+              <div><dt>Compute</dt><dd>Jetson Nano, policy step &lt; 20 ms</dd></div>
+              <div><dt>Parts</dt><dd>100+ custom 3D-printed</dd></div>
+            </dl>
+          </figure>
 
-            <div className="progress-dots">
-              {engineeringSteps.map((_, index) => (
-                <button
-                  key={index}
-                  className={`progress-dot ${index === activeStep ? 'active' : ''}`}
-                  onClick={() => setActiveStep(index)}
-                />
+          <div className="chapters">
+            <ol className="chapter-list" role="tablist" aria-label="Project timeline">
+              {chapters.map((c, i) => (
+                <li key={c.title}>
+                  <button
+                    type="button"
+                    role="tab"
+                    id={`chapter-tab-${i}`}
+                    aria-selected={i === active}
+                    aria-controls="chapter-panel"
+                    onClick={() => setActive(i)}
+                  >
+                    <span className="chapter-phase">{c.phase}</span>
+                    <span className="chapter-title">{c.title}</span>
+                  </button>
+                </li>
               ))}
+            </ol>
+
+            <div className="chapter-panel" id="chapter-panel" role="tabpanel" aria-labelledby={`chapter-tab-${active}`}>
+              <p className="eyebrow">{String(active + 1).padStart(2, '0')} / {String(chapters.length).padStart(2, '0')} · {chapter.phase}</p>
+              <h3 className="h3">{chapter.title}</h3>
+              <p>{chapter.description}</p>
+              <div className="stats">
+                <div><b>{chapter.metrics.value}</b><span>{chapter.metrics.label}</span></div>
+              </div>
             </div>
           </div>
         </div>

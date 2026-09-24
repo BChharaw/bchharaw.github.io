@@ -1,0 +1,33 @@
+.roles { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+
+.role {
+  display: grid;
+  grid-template-columns: 3fr 9fr;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.role-meta { font-size: 14px; }
+.role-when { font: 400 13px/1.6 var(--mono); color: var(--fg); }
+
+.role-body { display: grid; gap: 4px; max-width: 72ch; }
+.role-org { font-size: 15px; }
+.role-org a { color: var(--fg-2); }
+
+.role-points { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 15px; }
+.role-points li { position: relative; padding-left: 18px; }
+.role-points li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.75em;
+  width: 6px;
+  height: 1px;
+  background: var(--fg-3);
+}
+
+@media (max-width: 860px) {
+  .role { grid-template-columns: 1fr; gap: 8px; }
+  .role-meta { display: flex; gap: 12px; }
+}

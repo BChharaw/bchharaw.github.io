@@ -1,221 +1,85 @@
-/* ===== Clean Dark Robot Section ===== */
-.robot-section {
-  min-height: 100vh;
-  background: #000; /* true pitch black */
-  padding: clamp(60px, 10vw, 120px) 0;
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Inter, sans-serif;
-}
-
-.section-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 clamp(1rem, 4vw, 2rem);
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: clamp(40px, 8vw, 80px);
-}
-
-.section-title {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  font-weight: 600;
-  margin-bottom: 1.25rem;
-  letter-spacing: -0.02em;
-}
-
-.section-subtitle {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  color: rgba(255, 255, 255, 0.75);
-  line-height: 1.6;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-/* ===== Workspace Layout ===== */
-.robot-workspace {
+.robot-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(40px, 6vw, 80px);
-  align-items: center;
+  grid-template-columns: 5fr 7fr;
+  gap: 48px;
+  align-items: start;
 }
 
-.robot-viewport {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.robot-stage {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  background: #000;
 }
-
+.robot-stage:active { cursor: grabbing; }
 .robot-video {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  max-width: 420px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-  margin-bottom: 2rem;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
 }
 
-.tech-specs {
-  width: 100%;
-  max-width: 320px;
-}
+.turntable { display: flex; align-items: center; gap: 12px; margin: 12px 0 24px; }
+.turntable-readout { font: 400 12px/1 var(--mono); color: var(--fg-2); min-width: 4ch; text-align: right; font-variant-numeric: tabular-nums; }
 
-.spec-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.spec-row:last-child {
-  border-bottom: none;
-}
-
-.spec-label {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.spec-value {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #fff;
-}
-
-/* ===== Engineering Process (Carousel) ===== */
-.engineering-process {
-  display: flex;
-  flex-direction: column;
-}
-
-.process-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.step-counter {
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 500;
-}
-
-.phase-label {
-  font-size: 0.875rem;
-  color: #0af; /* Apple-style accent blue */
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.step-content {
-  margin-bottom: 2rem;
-  transition: opacity 0.6s ease;
-}
-
-.step-title {
-  font-size: 1.75rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  letter-spacing: -0.01em;
-}
-
-.step-description {
-  font-size: 1.125rem;
-  color: rgba(255, 255, 255, 0.75);
-  line-height: 1.6;
-  margin-bottom: 2rem;
-}
-
-.step-metric {
-  display: inline-flex;
-  flex-direction: column;
-  padding: 1.25rem 1.5rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-}
-
-.metric-value {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #0af;
-  margin-bottom: 0.25rem;
-}
-
-.metric-label {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.6);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* ===== Carousel Controls ===== */
-.carousel-controls {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-.carousel-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
-  font-size: 2rem;       /* big visible arrows */
-  font-weight: 600;
-  padding: 0.75rem 2rem; /* wide buttons */
-  border-radius: 10px;
+.turntable-slider {
+  flex: 1;
+  appearance: none;
+  -webkit-appearance: none;
+  height: 20px;
+  background: transparent;
   cursor: pointer;
-  transition: all 0.25s ease;
 }
-
-.carousel-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.35);
-  transform: translateY(-2px);
-}
-
-.carousel-btn:active {
-  transform: translateY(0);
-}
-
-/* ===== Progress Dots ===== */
-.progress-dots {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-}
-
-.progress-dot {
-  width: 10px;
-  height: 10px;
+.turntable-slider::-webkit-slider-runnable-track { height: 1px; background: var(--line-2); }
+.turntable-slider::-moz-range-track { height: 1px; background: var(--line-2); }
+.turntable-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
   border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--fg);
+  border: 0;
+}
+.turntable-slider::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--fg); border: 0; }
+
+.robot-specs dt { font-size: 12px; }
+.robot-specs dd { font-size: 14px; }
+
+.chapters { display: grid; gap: 32px; }
+
+.chapter-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.chapter-list li { border-bottom: 1px solid var(--line); }
+.chapter-list button {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 10px 0 10px 14px;
+  background: none;
+  border: 0;
+  border-left: 2px solid transparent;
+  text-align: left;
   cursor: pointer;
-  transition: background-color 0.25s ease;
 }
+.chapter-list button:hover .chapter-title { color: var(--fg); }
+.chapter-list button[aria-selected='true'] { border-left-color: var(--accent); background: var(--bg-2); }
+.chapter-list button[aria-selected='true'] .chapter-title { color: var(--fg); }
+.chapter-phase { font: 400 12px/1.5 var(--mono); color: var(--fg-3); }
+.chapter-title { font-size: 15px; color: var(--fg-2); }
 
-.progress-dot.active {
-  background: #0af;
+.chapter-panel { display: grid; gap: 12px; min-height: 280px; align-content: start; }
+.chapter-panel p:not(.eyebrow) { max-width: 68ch; }
+.chapter-panel .stats { margin-top: 8px; max-width: 320px; }
+
+@media (max-width: 960px) {
+  .robot-grid { grid-template-columns: 1fr; }
+  .robot-figure { max-width: 520px; }
 }
-
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-  .robot-workspace {
-    grid-template-columns: 1fr;
-    gap: 60px;
-  }
-
-  .robot-video {
-    max-width: 100%;
-  }
-
-  .carousel-btn {
-    font-size: 1.5rem;
-    padding: 0.6rem 1.5rem;
-  }
+@media (max-width: 640px) {
+  .chapter-panel { min-height: 0; }
 }

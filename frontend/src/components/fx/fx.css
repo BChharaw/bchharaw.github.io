@@ -1,0 +1,192 @@
+/* ===== Liquid glass =====
+   .lg                 frosted glass with rim light + sheen (all browsers)
+   .lg.refract         + true refraction in Chromium (html.lg-refract, liquidGlass.js)
+   .lg.refract-hover   + refraction only while hovered/active (big panels: saves GPU)
+   Tunables per element: --lg-tint, --lg-blur, --lg-bezel, --lg-refraction */
+@property --spot-a {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+/* Zero-specificity so components can still position their glass */
+:where(.lg) {
+  position: relative;
+  isolation: isolate;
+}
+
+.lg {
+  background:
+    radial-gradient(520px circle at var(--mx, 50%) var(--my, 0%), rgba(150, 200, 255, calc(var(--spot-a) * 0.14)), transparent 45%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.11) 0%, rgba(255, 255, 255, 0.025) 30%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.045) 100%),
+    rgba(255, 255, 255, var(--lg-tint, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+    inset 1px 0 0 rgba(255, 255, 255, 0.07),
+    inset -1px 0 0 rgba(255, 255, 255, 0.07),
+    0 18px 50px rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+  transition: --spot-a 0.4s ease, border-color 0.4s ease;
+}
+
+html.lg-refract .lg.refract,
+html.lg-refract .lg.refract-hover.is-hovered,
+html.lg-refract .lg.refract-hover.active {
+  backdrop-filter: var(--lg-filter,) blur(var(--lg-blur, 2px)) saturate(175%) brightness(1.08);
+}
+
+/* Cursor-following light that travels around the glass rim */
+.lg[data-tilt]::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(170, 215, 255, 0.95), rgba(0, 255, 170, 0.35) 35%, transparent 65%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: var(--spot-a);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ===== 3D tilt ===== */
+[data-tilt] {
+  transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), --spot-a 0.4s ease, border-color 0.4s ease;
+  will-change: transform;
+}
+[data-tilt].is-hovered {
+  --spot-a: 1;
+  transition: transform 0.12s linear, --spot-a 0.4s ease, border-color 0.4s ease;
+}
+
+/* ===== Magnetic buttons ===== */
+[data-magnetic] {
+  translate: var(--tx, 0px) var(--ty, 0px);
+  transition: translate 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-magnetic].is-hovered {
+  transition: translate 0.1s linear;
+}
+
+/* ===== Scroll-linked reveals (CSS scroll-driven animations) ===== */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: fx-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 5% cover 28%;
+  }
+}
+@keyframes fx-reveal {
+  from { opacity: 0; translate: 0 48px; scale: 0.965; }
+  to   { opacity: 1; translate: 0 0; scale: 1; }
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { animation: none !important; }
+  [data-tilt], [data-magnetic] { transform: none !important; translate: none !important; }
+}
+
+/* ===== Scramble / decode text ===== */
+.scramble .sc-word { white-space: nowrap; }
+.scramble [data-ch] { position: relative; display: inline-block; }
+.scramble .sc-pending { visibility: hidden; }
+.scramble .sc-pending::after {
+  content: attr(data-g);
+  visibility: visible;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  translate: -50% 0;
+  -webkit-text-fill-color: #7fd6ff;
+  color: #7fd6ff;
+  text-shadow: 0 0 18px rgba(0, 170, 255, 0.55);
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-weight: 500;
+}
+
+.countup [data-to] { font-variant-numeric: tabular-nums; }
+
+/* ===== WebGL contour field ===== */
+.shader-field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+  pointer-events: none;
+}
+.shader-field.is-ready { opacity: 1; }
+.shader-field.is-unsupported { display: none; }
+
+/* ===== Specular glare for tilted media ===== */
+.tilt-glare { position: relative; }
+.tilt-glare::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(700px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.22), transparent 40%);
+  mix-blend-mode: overlay;
+  opacity: var(--spot-a);
+  transition: opacity 0.4s ease;
+}
+
+/* ===== Content swaps (carousels): image wipes in, text rises in ===== */
+.fx-swap .media-container { animation: fx-wipe 0.85s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.fx-swap .project-details > *,
+.fx-swap.step-content > * { animation: fx-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.fx-swap .project-details > :nth-child(2), .fx-swap.step-content > :nth-child(2) { animation-delay: 0.06s; }
+.fx-swap .project-details > :nth-child(3), .fx-swap.step-content > :nth-child(3) { animation-delay: 0.12s; }
+.fx-swap .project-details > :nth-child(4) { animation-delay: 0.18s; }
+@keyframes fx-wipe {
+  from { clip-path: inset(0 100% 0 0); filter: brightness(1.8) saturate(0.4); }
+  60%  { filter: brightness(1.1) saturate(0.9); }
+  to   { clip-path: inset(0 0 0 0); filter: none; }
+}
+@keyframes fx-rise {
+  from { opacity: 0; translate: 0 14px; filter: blur(4px); }
+  to   { opacity: 1; translate: 0 0; filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fx-swap .media-container, .fx-swap .project-details > *, .fx-swap.step-content > * { animation: none; }
+}
+
+/* Per-letter slices of one gradient (see ScrambleText `gradient`) */
+.scramble-gradient {
+  --scramble-grad: linear-gradient(135deg, #007aff 0%, #00ff88 100%);
+  background: none !important;
+}
+.scramble-gradient [data-ch] {
+  background-image: var(--scramble-grad);
+  background-size: var(--gw, 100%) var(--gh, 100%);
+  background-position: calc(var(--gx, 0px) * -1) calc(var(--gy, 0px) * -1);
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ===== Rolling (odometer) digits ===== */
+.rolling-number { display: inline-flex; font-variant-numeric: tabular-nums; }
+.rn-digit { display: inline-block; height: 1.15em; line-height: 1.15em; overflow: hidden; }
+.rn-col { display: flex; flex-direction: column; translate: 0 calc(var(--d) * -1.15em); transition: translate 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+@media (prefers-reduced-motion: reduce) { .rn-col { transition: none; } }
+
+/* Going backwards wipes in from the left */
+.fx-swap.dir-prev .media-container { animation-name: fx-wipe-prev; }
+@keyframes fx-wipe-prev {
+  from { clip-path: inset(0 0 0 100%); filter: brightness(1.8) saturate(0.4); }
+  60%  { filter: brightness(1.1) saturate(0.9); }
+  to   { clip-path: inset(0 0 0 0); filter: none; }
+}

@@ -1,142 +1,83 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
+import AutoVideo from '../AutoVideo';
 import './HumanPoseSection.css';
 
-// import latentspacegood from "../../assets/latentspace.gif";
-// import L1 from "../../assets/L1.gif";
-// import L2 from "../../assets/L2.gif";
-// import L3 from "../../assets/L3.gif";
-// import L4 from "../../assets/L4.gif";
-
-const motionSteps = [
+const steps = [
   {
-    phase: "Step 1",
-    title: "Variational Encoding",
-    description:
-      "Each 72-dimensional human pose is compressed into a 3-dimensional latent vector. The VAE’s KL-regularized bottleneck ensures smoothness: nearby poses map to nearby points, so interpolating between latents generates natural in-between postures.",
-    metrics: { value: "72→3", label: "Dimensionality reduction" }
+    title: 'Variational encoding',
+    body: 'Each 72-dimensional human pose is compressed to a 3-dimensional latent. The KL-regularised bottleneck keeps the space smooth, so interpolating between latents gives natural in-between postures.',
+    metric: ['72 → 3', 'dimensions'],
   },
   {
-    phase: "Step 2",
-    title: "Temporal Prediction with LSTM",
-    description:
-      "Sequences of latent vectors are passed into an LSTM. The recurrence models continuity, predicting the next latent from history. This encodes rhythm and balance; the system can generate entire gait cycles without supervision.",
-    metrics: { value: "200+", label: "Steps predicted" }
+    title: 'Temporal prediction',
+    body: 'An LSTM over latent sequences predicts the next latent from history, which captures rhythm and balance well enough to generate whole gait cycles.',
+    metric: ['200+', 'steps predicted'],
   },
   {
-    phase: "Step 3",
-    title: "Reconstruction & Error Metric",
-    description:
-      "Decoded poses are compared against ground truth. Reconstruction error (MSE in joint angles) becomes a metric for motion plausibility. The downstream RL policy uses this signal to discriminate unnatural trajectories from human-like ones.",
-    metrics: { value: "<2%", label: "Reconstruction error" }
+    title: 'Plausibility signal',
+    body: 'Decoded poses are compared with ground truth; joint-angle reconstruction error becomes a measure of how human a motion looks.',
+    metric: ['< 2%', 'reconstruction error'],
   },
   {
-    phase: "Step 4",
-    title: "RL Integration & Transfer",
-    description:
-      "Latent rollouts guide an RL policy. Instead of only manually shaping rewards, the RL agent can simultaneously learn by aligning with the latent priors from recorded videos. This lightweight, efficient method transfers to simulation and eventually hardware with minimal task engineering.",
-    metrics: { value: "30%", label: "Faster convergence" }
-  }
+    title: 'Prior for RL',
+    body: 'Latent rollouts shape the locomotion reward, so the policy learns from recorded human motion as well as hand-written reward terms.',
+    metric: ['30%', 'faster convergence'],
+  },
 ];
 
-const HumanPoseSection = ({assets}) => {
-  const sectionRef = useRef(null);
-  const [activeStep, setActiveStep] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  // Auto-rotate carousel
-  useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(() => {
-      setActiveStep(prev => (prev + 1) % motionSteps.length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [isPaused]);
-
-  const currentStep = motionSteps[activeStep];
-
-  return (
-    <section className="human-pose-section" ref={sectionRef}>
-      <div className="section-container">
-        <div className="section-header">
-          <h2 className="section-title">Learning Human Motion with VAE-LSTM</h2>
-          <p className="section-subtitle">
-            A variational autoencoder combined with temporal modeling,
-            turning 45,000+ human poses into structured latent trajectories
-            that drive reinforcement learning for Robbie the humanoid robot.
+const HumanPoseSection = ({ assets }) => (
+  <section id="motion" className="section">
+    <div className="wrap">
+      <div className="section-head">
+        <p className="eyebrow"><b>04</b> Motion prior</p>
+        <div>
+          <h2 className="h2">Learning human gait with a VAE-LSTM</h2>
+          <p className="lede">
+            45,000+ human poses extracted from walking videos, compressed into a 3D latent space and modelled over
+            time, then used to keep Robbie’s learned gaits close to human motion.
           </p>
-        </div>
-
-        <div className="motion-workspace">
-          {/* Left: Carousel steps */}
-          <div
-            className="motion-process"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-          >
-            <div className="process-header">
-              <div className="step-counter">{activeStep + 1} / {motionSteps.length}</div>
-              <div className="phase-label">{currentStep.phase}</div>
-            </div>
-
-            <div className="step-content">
-              <h3 className="step-title">{currentStep.title}</h3>
-              <p className="step-description">{currentStep.description}</p>
-              <div className="step-metric">
-                <div className="metric-value">{currentStep.metrics.value}</div>
-                <div className="metric-label">{currentStep.metrics.label}</div>
-              </div>
-            </div>
-
-            <div className="carousel-controls">
-              <button onClick={() => setActiveStep((activeStep - 1 + motionSteps.length) % motionSteps.length)}>⟨</button>
-              <button onClick={() => setActiveStep((activeStep + 1) % motionSteps.length)}>⟩</button>
-            </div>
-
-            <div className="progress-dots">
-              {motionSteps.map((_, index) => (
-                <button
-                  key={index}
-                  className={`progress-dot ${index === activeStep ? 'active' : ''}`}
-                  onClick={() => setActiveStep(index)}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Right: Latent space visualization */}
-          <div className="motion-visual">
-            <img
-              src={assets.latentspacegood}
-              
-              alt="Latent space visualization"
-              className="motion-image"
-            />
-            <p className="visual-caption">
-              Latent space visualization (each arc corresponds to gait phases
-              captured by the VAE-LSTM pipeline).
-            </p>
-          </div>
-        </div>
-
-        {/* === Additional Latent Configurations Section === */}
-        <div className="gallery-block">
-          <h2 className="block-title">Alternative Latent Spaces</h2>
-          <p className="visual-caption">
-            Beyond the primary latent space, other VAE configurations revealed different structural
-            symmetries of the human body. Some emphasized bilateral limb coupling, others highlighted
-            torso-limb coordination or phase-specific clustering. Each latent geometry offered a
-            unique perspective on how motion can be organized. These other spaces were created by exploring different hyperparameter combinations, especially with regards to activation functions.
-          </p>
-          <div className="latent-gallery">
-            <img src={assets.L1} alt="Latent variation 1" className="latent-image"/>
-            <img src={assets.L2} alt="Latent variation 2" className="latent-image"/>
-            <img src={assets.L3} alt="Latent variation 3" className="latent-image"/>
-            <img src={assets.L4} alt="Latent variation 4" className="latent-image"/>
-          </div>
         </div>
       </div>
-    </section>
-  );
-};
+
+      <div className="motion-grid">
+        <figure className="figure">
+          <div className="plot-frame">
+            <AutoVideo src={assets.latentspacegood} poster={assets.latentPoster} label="Rotating 3D scatter of the VAE latent space; each arc is a gait cycle" />
+          </div>
+          <figcaption><b>Fig. 1</b> Primary latent space. Each arc traces the phases of a gait cycle.</figcaption>
+        </figure>
+
+        <ol className="motion-steps">
+          {steps.map((s, i) => (
+            <li key={s.title}>
+              <p className="pipeline-n">{String(i + 1).padStart(2, '0')}</p>
+              <div>
+                <h3 className="h3">{s.title}</h3>
+                <p>{s.body}</p>
+              </div>
+              <p className="motion-metric"><b>{s.metric[0]}</b> {s.metric[1]}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div className="latent-gallery">
+        {['L1', 'L2', 'L3', 'L4'].map((k, i) => (
+          <figure key={k} className="figure">
+            <div className="plot-frame">
+              <AutoVideo src={assets[k]} poster={assets[`${k}Poster`]} label={`Rotating 3D scatter of alternative latent space ${i + 1}`} />
+            </div>
+            <figcaption><b>Fig. {i + 2}</b> Alternative configuration {i + 1}</figcaption>
+          </figure>
+        ))}
+      </div>
+      <p className="gallery-note">
+        Other hyperparameter settings, especially the choice of activation function, produced latent spaces with
+        different structure: some emphasise bilateral limb coupling, others torso–limb coordination or
+        phase-specific clusters.
+      </p>
+    </div>
+  </section>
+);
 
 export default HumanPoseSection;
